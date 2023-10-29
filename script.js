@@ -1,8 +1,11 @@
-function submitForm() {
+document.getElementById('myForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
     var errors = [];
     var pseudo = document.getElementById("pseudo").value;
     var role = document.getElementById("role").value;
     var classe = document.getElementById("classe").value;
+
 
     // Vérifier si le champ "Pseudo" est rempli
     if (!pseudo) {
@@ -45,12 +48,9 @@ function submitForm() {
             errorMessages.innerHTML = "Formulaire soumis avec succès!";
             // Réinitialiser le formulaire
             document.getElementById("myForm").reset();
-        })
-        .catch(error => {
-            console.error('Erreur :', error);
         });
     }
-}
+});
 
 // Mettre à jour les options du sélecteur de classe en fonction du rôle sélectionné
 var roleSelect = document.getElementById("role");

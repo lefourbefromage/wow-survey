@@ -9,8 +9,8 @@
 
 <body>
     <h1>Formulaire</h1>
-    
-    <form id="myForm" action="/submit" method="POST">
+
+    <form id="myForm" action="/submit" onsubmit="submitForm()" method="POST">
         <label for="pseudo">Mon Pseudo:</label>
         <input type="text" id="pseudo" name="pseudo" required><br>
 
@@ -25,7 +25,7 @@
 
         <div id="classeContainer" style="display:none;">
             <label for="classe">Ma Classe:</label>
-            <select id="classe" name="classe" required></select><br>
+            <select id="classe" name="classe" required></select>
         </div>
 
         <button type="submit">Soumettre</button>
