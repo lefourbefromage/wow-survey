@@ -3,5 +3,10 @@
     "pseudo": "dsfsdf",
     "role": "heal",
     "classe": "Restoration Druid"
+  },
+  {
+    "pseudo": "azeae",
+    "role": "tank",
+    "classe": "Guardian Druid"
   }
 ]
