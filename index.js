@@ -54,8 +54,4 @@ app.get('/results', (req, res) => {
     res.sendFile(path.join(__dirname, 'results.html'));
 });
 
-// Écouter le serveur sur le port 3000 (ou le port spécifié dans l'environnement)
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Serveur en écoute sur le port ${PORT}`);
-});
+module.exports = app;
