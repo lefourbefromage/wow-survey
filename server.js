@@ -45,6 +45,11 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
+app.get('/results', (req, res) => {
+    res.sendFile(path.join(__dirname, 'results.html'));
+});
+
+
 // Écouter le serveur sur le port 3000 (ou le port spécifié dans l'environnement)
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
