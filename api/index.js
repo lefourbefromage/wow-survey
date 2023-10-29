@@ -6,14 +6,13 @@ const path = require('path');
 
 
 app.use(express.json());
-app.use(express.static('public'));
 
 // Définir le chemin du fichier JSON
 const jsonFilePath = path.join(__dirname, 'responses.json');
 
 app.get('/responses', (req, res) => {
     // Charger les réponses depuis le fichier JSON
-    const responses = require('./responses.json'); // Assurez-vous que responses.json contient vos réponses
+    const responses = require('../responses.json'); // Assurez-vous que responses.json contient vos réponses
 
     // Filtrer et trier les réponses par rôle et classe
     let sortedResponses = {
