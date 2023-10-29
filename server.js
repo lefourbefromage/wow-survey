@@ -6,6 +6,7 @@ const path = require('path');
 
 
 app.use(express.json());
+app.use(express.static('public'));
 
 // Définir le chemin du fichier JSON
 const jsonFilePath = path.join(__dirname, 'responses.json');
