@@ -35,7 +35,7 @@ document.getElementById('myForm').addEventListener('submit', function(event) {
         };
 
         // Envoyer les réponses à un serveur (Node.js) via une requête POST
-        fetch('/submit', {
+        fetch('/api/submit', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
