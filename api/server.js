@@ -1,33 +1,39 @@
+
+const { v4 } = require('uuid');
+
+app.get('/api', (req, res) => {
+  const path = `/api/item/${v4()}`;
+  res.setHeader('Content-Type', 'text/html');
+  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
+  res.end(`Hello! Go to item: <a href="${path}">${path}</a>`);
+});
+
+app.get('/api/item/:slug', (req, res) => {
+  const { slug } = req.params;
+  res.end(`Item: ${slug}`);
+});
+
+module.exports = app;
+
+
+
+
+
+
+
+
+
+
 const express = require('express');
 const fs = require('fs');
 const app = express();
 
 const path = require('path');
 
-
 app.use(express.json());
 
 // Définir le chemin du fichier JSON
 const jsonFilePath = path.join(__dirname, 'responses.json');
-
-app.get('/responses', (req, res) => {
-    // Charger les réponses depuis le fichier JSON
-    const responses = require('../responses.json'); // Assurez-vous que responses.json contient vos réponses
-
-    // Filtrer et trier les réponses par rôle et classe
-    let sortedResponses = {
-        tank: [],
-        heal: [],
-        'dps-distance': [],
-        'dps-cac': []
-    };
-
-    responses.forEach(response => {
-        sortedResponses[response.role].push(response);
-    });
-
-    res.json(sortedResponses);
-});
 
 // Endpoint pour soumettre un formulaire
 app.post('/submit', (req, res) => {
@@ -47,6 +53,25 @@ app.get('/', (req, res) => {
 
 app.get('/results', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/results.html'));
+});
+
+app.get('/responses', (req, res) => {
+    // Charger les réponses depuis le fichier JSON
+    const responses = require('../responses.json'); // Assurez-vous que responses.json contient vos réponses
+
+    // Filtrer et trier les réponses par rôle et classe
+    let sortedResponses = {
+        tank: [],
+        heal: [],
+        'dps-distance': [],
+        'dps-cac': []
+    };
+
+    responses.forEach(response => {
+        sortedResponses[response.role].push(response);
+    });
+
+    res.json(sortedResponses);
 });
 
 module.exports = app;
