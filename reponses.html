@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réponses</title>
+</head>
+<body>
+    <h1>Réponses</h1>
+
+    <table id="responseTable">
+        <tr>
+            <th>Question 1</th>
+            <th>Question 2</th>
+            <th>Question 3</th>
+        </tr>
+    </table>
+
+    <script>
+        // Récupérer les réponses stockées localement
+        var storedResponses = JSON.parse(localStorage.getItem('responses')) || [];
+
+        // Mettre à jour le tableau récapitulatif
+        var table = document.getElementById("responseTable");
+        for (var i = 0; i < storedResponses.length; i++) {
+            var row = table.insertRow(-1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            cell1.innerHTML = storedResponses[i].question1;
+            cell2.innerHTML = storedResponses[i].question2;
+            cell3.innerHTML = storedResponses[i].question3;
+        }
+    </script>
+</body>
+</html>
