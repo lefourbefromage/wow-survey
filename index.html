@@ -1,69 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulaire</title>
+    <style>
+        .error-message {
+            color: red;
+        }
+    </style>
 </head>
+
 <body>
     <h1>Formulaire</h1>
 
+    <div id="errorMessages" class="error-message"></div>
+
     <form id="myForm">
-        <label for="question1">Question 1:</label>
-        <input type="text" id="question1" name="question1"><br>
+        <label for="pseudo">Pseudo:</label>
+        <input type="text" id="pseudo" name="pseudo" required><br>
 
-        <label for="question2">Question 2:</label>
-        <input type="text" id="question2" name="question2"><br>
+        <label for="role">Mon Rôle:</label>
+        <select id="role" name="role" required>
+            <option value="">Sélectionnez un rôle</option>
+            <option value="heal">Heal</option>
+            <option value="tank">Tank</option>
+            <option value="dps-distant">Dps Distant</option>
+            <option value="dps-cac">Dps CAC</option>
+        </select><br>
 
-        <label for="question3">Question 3:</label>
-        <input type="text" id="question3" name="question3"><br>
+        <div id="questionContainer" style="display:none;">
+            <label for="question3">Question 3:</label>
+            <select id="question3" name="question3" required></select><br>
+        </div>
 
         <button type="button" onclick="submitForm()">Soumettre</button>
     </form>
 
+    <div id="confirmationMessage"></div>
+    
     <script>
+        var roleSelect = document.getElementById("role");
+        var questionContainer = document.getElementById("questionContainer");
+        var question3Select = document.getElementById("question3");
+        
+        // Options de la troisième question en fonction du rôle sélectionné
+        var roleOptions = {
+            heal: ["Chaman", "Prêtre", "Paladin", "Evoker", "Druide", "Moine"],
+            tank: ["War", "Moine", "Druide", "DH", "Paladin"],
+            'dps-distant': ["Toto", "Tata"],
+            'dps-cac': ["TITI", "TOTO"]
+        };
+        
+        // Mettre à jour les options de la troisième question lorsque le rôle change
+        roleSelect.addEventListener("change", function() {
+            var selectedRole = roleSelect.value;
+            if (selectedRole) {
+                questionContainer.style.display = "block"; // Afficher le conteneur de la question 3
+                question3Select.innerHTML = ""; // Effacer les anciennes options
+        
+                // Ajouter les nouvelles options basées sur le rôle sélectionné
+                roleOptions[selectedRole].forEach(function(option) {
+                    var newOption = document.createElement("option");
+                    newOption.text = option;
+                    question3Select.add(newOption);
+                });
+            } else {
+                questionContainer.style.display = "none"; // Masquer le conteneur de la question 3 si aucun rôle n'est sélectionné
+                question3Select.innerHTML = ""; 
+            }
+        });
+        
+
         function submitForm() {
-            // ... (votre code de stockage local ici)
+            var errors = [];
+            var pseudo = document.getElementById("pseudo").value;
+            var role = document.getElementById("role").value;
+            var question3 = document.getElementById("question3").value;
+
+            // Vérifier si le champ "Pseudo" est rempli
+            if (!pseudo) {
+                errors.push("Veuillez saisir votre pseudo.");
+            }
+
+            // Vérifier si le rôle a été sélectionné
+            if (!role) {
+                errors.push("Veuillez sélectionner un rôle.");
+            }
+
+            // Afficher les messages d'erreur
+            var errorMessages = document.getElementById("errorMessages");
+            errorMessages.innerHTML = errors.join("<br>");
+
+            // Si aucune erreur, stocker les réponses
+            if (errors.length === 0) {
+                var response = {
+                    pseudo: pseudo,
+                    role: role,
+                    question3: question3
+                };
+
+                var storedResponses = JSON.parse(localStorage.getItem('responses')) || [];
+                storedResponses.push(response);
+                localStorage.setItem('responses', JSON.stringify(storedResponses));
+
+                // Réinitialiser le formulaire
+                document.getElementById("myForm").reset();
+
+                // Effacer les messages d'erreur après soumission réussie
+                errorMessages.innerHTML = "";
+
+                var confirmationMessage = document.getElementById("confirmationMessage");
+                confirmationMessage.innerHTML = "Formulaire soumis avec succès!<br>";
+                confirmationMessage.innerHTML += "Pseudo: " + pseudo + "<br>";
+                confirmationMessage.innerHTML += "Rôle: " + role + "<br>";
+                confirmationMessage.innerHTML += "Question 3: " + question3;
+                
+            }
         }
     </script>
 </body>
-</html>
-Étape 2: Créer la page d'affichage des réponses (responses.html)
-html
-Copy code
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Réponses</title>
-</head>
-<body>
-    <h1>Réponses</h1>
 
-    <table id="responseTable">
-        <tr>
-            <th>Question 1</th>
-            <th>Question 2</th>
-            <th>Question 3</th>
-        </tr>
-    </table>
-
-    <script>
-        // Récupérer les réponses stockées localement
-        var storedResponses = JSON.parse(localStorage.getItem('responses')) || [];
-
-        // Mettre à jour le tableau récapitulatif
-        var table = document.getElementById("responseTable");
-        for (var i = 0; i < storedResponses.length; i++) {
-            var row = table.insertRow(-1);
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            var cell3 = row.insertCell(2);
-            cell1.innerHTML = storedResponses[i].question1;
-            cell2.innerHTML = storedResponses[i].question2;
-            cell3.innerHTML = storedResponses[i].question3;
-        }
-    </script>
-</body>
 </html>
