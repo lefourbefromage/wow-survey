@@ -4,11 +4,18 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-const port = 3000;
+
+
+const PORT = process.env.PORT || 3000;
+
+// Middleware pour parser les données POST en JSON
+app.use(express.json());
+
 
 app.use(express.static(path.join(__dirname, '/')));
 
 app.use(bodyParser.json());
+
 
 app.post('/submit', (req, res) => {
     const response = req.body;
@@ -28,6 +35,7 @@ app.post('/submit', (req, res) => {
     fs.writeFileSync('responses.json', JSON.stringify(responses, null, 2));
 
     res.json({ success: true });
+    res.status(200).json({ message: 'Formulaire soumis avec succès!' });
 });
 
 app.get('/responses', (req, res) => {
@@ -57,6 +65,7 @@ app.get('/responses', (req, res) => {
 app.get('/results', (req, res) => {
     res.sendFile(path.join(__dirname, 'results.html'));
 });
+
 
 app.listen(port, () => {
     console.log(`Serveur en écoute sur le port ${port}`);
