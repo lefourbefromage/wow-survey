@@ -43,10 +43,6 @@ app.get('/results', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'results.html')); // Serve results.html for /results route
   });
 
-app.get('/', (req: Request, res: Response) => {
-  res.sendFile('index.html', {root: path.join(__dirname, 'public')});
-});
-
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });
