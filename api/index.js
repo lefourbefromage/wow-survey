@@ -1,50 +1,37 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path'); // Import the path module
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
-const fs = require('fs');
-const app = express();
+var indexRouter = require('../routes/index');
 
-const port = process.env.PORT || 3000; // Use the PORT environment variable for Vercel deployment
+var app = express();
 
-app.use(bodyParser.json());
-app.use(express.static('public'));
+const whitelist = [
+  '*'
+];
 
-app.post('/submit', (req, res) => {
-  const characterData = req.body;
-
-  try {
-    let jsonData = fs.readFileSync('data.json', 'utf8');
-    jsonData = jsonData ? JSON.parse(jsonData) : { characters: [] };
-
-    jsonData.characters.push(characterData);
-
-    fs.writeFileSync('data.json', JSON.stringify(jsonData, null, 2));
-
-    res.status(200).json({ message: 'Form submitted successfully!', data: characterData });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error submitting the form. Please try again later.' });
+app.use((req, res, next) => {
+  const origin = req.get('referer');
+  const isWhitelisted = whitelist.find((w) => origin && origin.includes(w));
+  if (isWhitelisted) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,Content-Type,Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', true);
   }
+  // Pass to next layer of middleware
+  if (req.method === 'OPTIONS') res.sendStatus(200);
+  else next();
 });
 
-app.get('/characters', (req, res) => {
-  try {
-    let jsonData = fs.readFileSync('data.json', 'utf8');
-    jsonData = jsonData ? JSON.parse(jsonData) : { characters: [] };
-    res.status(200).json(jsonData);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error fetching data. Please try again later.' });
-  }
-});
+const setContext = (req, res, next) => {
+  if (!req.context) req.context = {};
+  next();
+};
+app.use(setContext);
 
-app.get('/results', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'results.html')); // Serve results.html for /results route
-  });
+app.use('/', indexRouter);
 
-  app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-  });
-
-
+module.exports = app;
