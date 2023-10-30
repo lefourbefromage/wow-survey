@@ -4,7 +4,8 @@ const path = require('path'); // Import the path module
 
 const fs = require('fs');
 const app = express();
-const port = 3000;
+
+const port = process.env.PORT || 3000; // Use the PORT environment variable for Vercel deployment
 
 app.use(bodyParser.json());
 app.use(express.static('public'));
@@ -42,8 +43,8 @@ app.get('/results', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'results.html')); // Serve results.html for /results route
   });
 
-app.listen(port, () => {
-  console.log(`Server listening at http://localhost:${port}`);
-});
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
 
 
