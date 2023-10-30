@@ -1,0 +1,32 @@
+{
+  "characters": [
+    {},
+    {},
+    {},
+    {
+      "pseudo": "sdfsdf",
+      "role": "heal",
+      "class": "Holy Paladin"
+    },
+    {
+      "pseudo": "dsfsdf",
+      "role": "heal",
+      "class": "Holy Paladin"
+    },
+    {
+      "pseudo": "sdfsdf",
+      "role": "tank",
+      "class": "Druid Guardian"
+    },
+    {
+      "pseudo": "pppfdg",
+      "role": "dps_distance",
+      "class": "Evoker augmentation"
+    },
+    {
+      "pseudo": "nbvc",
+      "role": "dps_cac",
+      "class": "Shaman Enhancement"
+    }
+  ]
+}

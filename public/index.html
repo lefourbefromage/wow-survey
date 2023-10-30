@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Character Selection</title>
+</head>
+<body>
+  <div class="container">
+    <h1>Character Selection</h1>
+    <form method="POST" id="characterForm">
+      <label for="pseudo">My Pseudo:</label>
+      <input type="text" id="pseudo" required><br>
+
+      <label for="role">My Role:</label>
+      <select id="role" required>
+        <option value="">Select Role</option>
+        <option value="heal">Heal</option>
+        <option value="tank">Tank</option>
+        <option value="dps_distance">DPS Distance</option>
+        <option value="dps_cac">DPS CaC</option>
+      </select><br>
+
+      <label for="class">My Class:</label>
+      <select id="class" required></select><br>
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <a href="/results">Roster</a>
+    <p id="error-message"></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
