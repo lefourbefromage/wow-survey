@@ -1,3 +1,24 @@
+
+const express = require("express");
+const serverless = require("serverless-http");
+
+
+const api = express();
+
+
+const router = express.Router();
+router.get("/hello", (req, res) => res.send("Hello World!"));
+
+api.use("/", router);
+
+
+exports.handler = serverless(api);
+
+
+
+
+/* 
+
 const express = require('express');
 const serverless = require("serverless-http");
 const bodyParser = require('body-parser');
@@ -11,7 +32,7 @@ api.use(bodyParser.json());
 
 router.get("/hello", (req, res) => res.send("Hello World!"));
 
-/* 
+
 api.post('/submit', (req, res) => {
   const characterData = req.body;
 
@@ -44,10 +65,11 @@ api.get('/characters', (req, res) => {
 api.get('/results', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'results.html')); // Serve results.html for /results route
 });
+ */
 
 api.listen(port, () => {
 console.log(`Server is running on port ${PORT}`);
 });
- */
+
 
 exports.handler = serverless(api);
