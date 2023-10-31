@@ -1,8 +1,12 @@
-[functions]
-  external_node_modules = ["express"]
-  node_bundler = "esbuild"
+[build]
+  command = "npm run build" # Build command if you have any build steps
+  functions = "functions" # Netlify serverless functions directory if you're using serverless functions
+  publish = "public" # Public directory that Netlify serves, change it if your static files are in a different folder
+
+[dev]
+  command = "npm start" # Command to start the development server locally
+
 [[redirects]]
-  force = true
-  from = "/api/*"
+  from = "/*"
+  to = "/index.html"
   status = 200
-  to = "/.netlify/functions/api/:splat"

@@ -1,30 +1,18 @@
-
-
-
-
-
-
-
 const express = require('express');
 const serverless = require("serverless-http");
 const bodyParser = require('body-parser');
 const path = require('path'); // Import the path module
 
+const PORT = process.env.PORT || 3000;
+
 const fs = require('fs');
 const api = express();
 const router = express.Router();
 
-const port = process.env.PORT || 3000; // Use the PORT environment variable for Vercel deployment
-
-
-
-
-
 api.use(bodyParser.json());
 api.use(express.static('public'));
 
-router.get("/hello", (req, res) => res.send("Hello World!"));
-
+api.get("/hello", (req, res) => res.send("Hello World!"));
 
 api.post('/submit', (req, res) => {
   const characterData = req.body;
@@ -44,7 +32,7 @@ api.post('/submit', (req, res) => {
   }
 });
 
-router.get('/characters', (req, res) => {
+api.get('/characters', (req, res) => {
   try {
     let jsonData = fs.readFileSync('data.json', 'utf8');
     jsonData = jsonData ? JSON.parse(jsonData) : { characters: [] };
@@ -55,16 +43,13 @@ router.get('/characters', (req, res) => {
   }
 });
 
-router.get('/results', (req, res) => {
+api.get('/results', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'results.html')); // Serve results.html for /results route
-  });
-
-api.listen(port, () => {
-console.log(`Server is running on port ${port}`);
 });
 
-
-  api.use("/api/", router);
+api.listen(PORT, () => {
+console.log(`Server is running on port ${port}`);
+});
 
 
   exports.handler = serverless(api);
