@@ -3,17 +3,15 @@ const serverless = require("serverless-http");
 const bodyParser = require('body-parser');
 const path = require('path'); // Import the path module
 
-const port = process.env.port || 3000;
-
 const fs = require('fs');
 const api = express();
 const router = express.Router();
 
 api.use(bodyParser.json());
-api.use(express.static('public'));
 
-api.get("/hello", (req, res) => res.send("Hello World!"));
+router.get("/hello", (req, res) => res.send("Hello World!"));
 
+/* 
 api.post('/submit', (req, res) => {
   const characterData = req.body;
 
@@ -50,6 +48,6 @@ api.get('/results', (req, res) => {
 api.listen(port, () => {
 console.log(`Server is running on port ${PORT}`);
 });
-
+ */
 
 exports.handler = serverless(api);
