@@ -3,7 +3,7 @@ const serverless = require("serverless-http");
 const bodyParser = require('body-parser');
 const path = require('path'); // Import the path module
 
-const PORT = process.env.PORT || 3000;
+const port = process.env.port || 3000;
 
 const fs = require('fs');
 const api = express();
@@ -47,7 +47,7 @@ api.get('/results', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'results.html')); // Serve results.html for /results route
 });
 
-api.listen(PORT, () => {
+api.listen(port, () => {
 console.log(`Server is running on port ${PORT}`);
 });
 
