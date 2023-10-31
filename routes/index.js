@@ -52,5 +52,5 @@ console.log(`Server is running on port ${port}`);
 });
 
 
-  exports.handler = serverless(api);
+exports.handler = serverless(api);
   
